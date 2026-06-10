@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>SilentBox Config</title>
+
+  <style>
+    :root {
+      --bg: #050713;
+      --bg2: #0b1021;
+      --card: rgba(18, 24, 39, .76);
+      --card2: rgba(24, 32, 51, .92);
+      --text: #f6f8ff;
+      --muted: #9aa7c1;
+      --soft: rgba(255,255,255,.08);
+      --line: rgba(255,255,255,.12);
+      --accent: #5a8dff;
+      --accent2: #8d5cff;
+      --cyan: #43e0ff;
+      --ok: #19df88;
+      --bad: #ff5068;
+      --warn: #ffc14d;
+      --shadow: 0 18px 60px rgba(0,0,0,.42);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(90,141,255,.34), transparent 34%),
+        radial-gradient(circle at 86% 12%, rgba(141,92,255,.28), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(67,224,255,.12), transparent 34%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.8), transparent 78%);
+    }
+
+    .app {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 18px 14px 32px;
+    }
+
+    .hero {
+      padding: 18px 6px 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 30% 25%, #fff, transparent 18%),
+        linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 16px 35px rgba(90,141,255,.26);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: -.05em;
+      line-height: 1;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: .94rem;
+      margin-top: 7px;
+      line-height: 1.42;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 17px;
+      margin: 13px 0;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .cardTitle, .status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cardTitle strong, .card strong {
+      font-size: 1.04rem;
+      letter-spacing: -.015em;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: .84rem;
+      color: var(--muted);
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--bad);
+      box-shadow: 0 0 0 4px rgba(255,80,104,.14);
+    }
+
+    .dot.on {
+      background: var(--ok);
+      box-shadow: 0 0 0 4px rgba(25,223,136,.14);
+    }
+
+    label {
+      display: block;
+      font-size: .88rem;
+      color: var(--muted);
+      margin: 16px 0 8px;
+    }
+
+    input, select, button {
+      width: 100%;
+      border: 0;
+      border-radius: 17px;
+      font: inherit;
+    }
+
+    input, select {
+      background: var(--card2);
+      color: var(--text);
+      border: 1px solid var(--line);
+      padding: 14px 13px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(90,141,255,.78);
+      box-shadow: 0 0 0 4px rgba(90,141,255,.14);
+    }
+
+    input[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .controlHead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .controlHead label {
+      margin: 0;
+    }
+
+    .valueBadge {
+      font-size: .82rem;
+      color: var(--text);
+      background: linear-gradient(135deg, rgba(90,141,255,.22), rgba(141,92,255,.18));
+      border: 1px solid rgba(90,141,255,.28);
+      padding: 7px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .rangeNumber {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .rangeBox {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      padding: 0 12px;
+    }
+
+    input[type="range"] {
+      --progress: 0%;
+      padding: 0;
+      height: 36px;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 10px;
+      border-radius: 999px;
+      background:
+        linear-gradient(
+          90deg,
+          var(--cyan) 0%,
+          var(--accent) var(--progress),
+          rgba(255,255,255,.15) var(--progress),
+          rgba(255,255,255,.15) 100%
+        );
+      transition: background .16s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 29px;
+      height: 29px;
+      border-radius: 50%;
+      margin-top: -9.5px;
+      background: #fff;
+      border: 4px solid var(--accent);
+      box-shadow: 0 10px 22px rgba(0,0,0,.36);
+      transition: transform .12s ease, border-color .18s ease;
+    }
+
+    input[type="range"]:active::-webkit-slider-thumb {
+      transform: scale(1.12);
+      border-color: var(--cyan);
+    }
+
+    .btn {
+      margin-top: 12px;
+      padding: 15px 16px;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 14px 28px rgba(90,141,255,.26);
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: rgba(255,255,255,.075);
+      color: var(--text);
+      box-shadow: none;
+      border: 1px solid var(--line);
+    }
+
+    .btn.danger {
+      background: linear-gradient(135deg, #ff5068, #ff8b4a);
+      box-shadow: 0 14px 28px rgba(255,80,104,.2);
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      filter: grayscale(1);
+      cursor: not-allowed;
+    }
+
+    .smallBtns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .meter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 13px;
+    }
+
+    .metric {
+      background: rgba(255,255,255,.058);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 12px;
+      min-height: 76px;
+    }
+
+    .metric b {
+      display: block;
+      font-size: 1.28rem;
+      margin-top: 4px;
+      letter-spacing: -.03em;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.4;
+      margin-top: 10px;
+    }
+
+    .msg {
+      margin-top: 10px;
+      font-size: .88rem;
+      color: var(--muted);
+      min-height: 22px;
+      line-height: 1.35;
+    }
+
+    .ok { color: var(--ok); }
+    .bad { color: var(--bad); }
+    .warn { color: var(--warn); }
+
+    .hidden {
+      display: none;
+    }
+
+    .presetBox {
+      background: rgba(255,255,255,.045);
+      border: 1px dashed rgba(255,255,255,.2);
+      border-radius: 20px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .presetInfo {
+      color: var(--muted);
+      font-size: .83rem;
+      line-height: 1.35;
+      margin-top: 8px;
+      min-height: 18px;
+    }
+
+    details {
+      margin-top: 12px;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      font-weight: 800;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "abrir";
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    details[open] summary::after {
+      content: "fechar";
+    }
+
+    .advancedBody {
+      padding-top: 4px;
+    }
+
+    @media (max-width: 370px) {
+      .rangeNumber {
+        grid-template-columns: 1fr;
+      }
+
+      .smallBtns {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>SilentBox</h1>
+          <div class="sub">Configuração BLE para a caixinha de silêncio.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="status">
+        <div>
+          <strong>Conexão</strong>
+          <div class="sub" id="deviceName">Nenhum dispositivo</div>
+        </div>
+
+        <div class="pill">
+          <span class="dot" id="dot"></span>
+          <span id="connText">offline</span>
+        </div>
+      </div>
+
+      <label for="password">Senha do dispositivo</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="Ex: 12345678" />
+
+      <button class="btn" id="connectBtn">Conectar via Bluetooth</button>
+      <button class="btn secondary" id="readBtn" disabled>Ler status</button>
+
+      <div class="msg" id="msg"></div>
+    </section>
+
+    <section class="card">
+      <strong>Identificação</strong>
+
+      <label for="boxName">Nome da caixinha</label>
+      <input id="boxName" type="text" maxlength="24" placeholder="SilentBox" value="SilentBox" />
+
+      <div class="hint">
+        Esse nome aparece no Bluetooth.
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="cardTitle">
+        <strong>Sensibilidade</strong>
+        <span class="valueBadge">Sense <b id="thresholdValue">220</b></span>
+      </div>
+
+      <div class="hint">
+        O alerta dispara quando o pico-a-pico passa da Sense pelo tempo configurado.
+      </div>
+
+      <div class="controlHead">
+        <label for="thresholdRange">Pico-a-pico necessário</label>
+      </div>
+
+      <div class="rangeNumber">
+        <div class="rangeBox">
+          <input id="thresholdRange" type="range" min="50" max="20000" step="10" value="220" />
+        </div>
+        <input id="thresholdNumber" type="number" min="50" max="20000" step="10" value="220" inputmode="numeric" />
+      </div>
+
+      <div class="meter">
+        <div class="metric">
+          <span>pico-a-pico</span>
+          <b id="energy">0</b>
+        </div>
+
+        <div class="metric">
+          <span>envelope</span>
+          <b id="avg">0</b>
+        </div>
+
+        <div class="metric">
+          <span>score ms</span>
+          <b id="acc">0</b>
+        </div>
+
+        <div class="metric">
+          <span>dinâmica ms</span>
+          <b id="dyn">0</b>
+        </div>
+
+        <div class="metric">
+          <span>RMS</span>
+          <b id="rms">0</b>
+        </div>
+
+        <div class="metric">
+          <span>ZCR</span>
+          <b id="zcr">0</b>
+        </div>
+
+        <div class="metric">
+          <span>piso</span>
+          <b id="floor">0</b>
+        </div>
+
+        <div class="metric">
+          <span>frame</span>
+          <b id="frameFlags">--</b>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <strong>Alerta</strong>
+
+      <label for="alertMode">Comportamento</label>
+      <select id="alertMode">
+        <option value="0" selected>Tempo fixo</option>
+        <option value="1">Até toque no sensor</option>
+      </select>
+
+      <div id="secondsBox">
+        <div class="controlHead">
+          <label for="secondsRange">Tempo do alerta</label>
+          <span class="valueBadge"><b id="secondsValue">8</b>s</span>
+        </div>
+
+        <div class="rangeNumber">
+          <div class="rangeBox">
+            <input id="secondsRange" type="range" min="1" max="120" step="1" value="8" />
+          </div>
+
+          <input id="alertSeconds" type="number" min="1" max="3600" step="1" value="8" inputmode="numeric" />
+        </div>
+      </div>
+
+      <div id="touchMuteBox" class="hidden">
+        <div class="controlHead">
+          <label for="touchMuteRange">Tempo segurando para silenciar</label>
+          <span class="valueBadge"><b id="touchMuteValue">0,5</b>s</span>
+        </div>
+
+        <div class="rangeNumber">
+          <div class="rangeBox">
+            <input id="touchMuteRange" type="range" min="0.1" max="10" step="0.1" value="0.5" />
+          </div>
+
+          <input id="touchMuteNumber" type="number" min="0.1" max="10" step="0.1" value="0.5" inputmode="decimal" />
+        </div>
+      </div>
+
+      <label for="gain">Ganho MAX9814</label>
+      <select id="gain">
+        <option value="40">40 dB</option>
+        <option value="50">50 dB</option>
+        <option value="60" selected>60 dB - padrão</option>
+      </select>
+
+      <div class="hint">
+        O ganho é o máximo do MAX9814. O alerta usa pico-a-pico real medido em janela.
+      </div>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>Configurações avançadas</summary>
+
+        <div class="advancedBody">
+          <div class="controlHead">
+            <label for="activationRange">Tempo acumulado para ativar</label>
+            <span class="valueBadge"><b id="activationValue">800</b>ms</span>
+          </div>
+
+          <div class="rangeNumber">
+            <div class="rangeBox">
+              <input id="activationRange" type="range" min="40" max="10000" step="40" value="800" />
+            </div>
+
+            <input id="activationNumber" type="number" min="40" max="10000" step="40" value="800" inputmode="numeric" />
+          </div>
+
+          <div class="controlHead">
+            <label for="decayRange">Decaimento do envelope</label>
+            <span class="valueBadge"><b id="decayValue">0</b>%</span>
+          </div>
+
+          <div class="rangeNumber">
+            <div class="rangeBox">
+              <input id="decayRange" type="range" min="0" max="99" step="1" value="0" />
+            </div>
+
+            <input id="decayNumber" type="number" min="0" max="99" step="1" value="0" inputmode="numeric" />
+          </div>
+
+          <div class="controlHead">
+            <label for="rearmRange">Tempo de rearme</label>
+            <span class="valueBadge"><b id="rearmValue">1800</b>ms</span>
+          </div>
+
+          <div class="rangeNumber">
+            <div class="rangeBox">
+              <input id="rearmRange" type="range" min="0" max="10000" step="100" value="1800" />
+            </div>
+
+            <input id="rearmNumber" type="number" min="0" max="10000" step="100" value="1800" inputmode="numeric" />
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="card">
+      <strong>Preset do navegador</strong>
+
+      <div class="presetBox">
+        <div class="hint">
+          Salve esta configuração no navegador para aplicar em outra caixinha depois.
+          A senha não é salva.
+        </div>
+
+        <div class="smallBtns">
+          <button class="btn secondary" id="savePresetBtn">Salvar preset local</button>
+          <button class="btn secondary" id="loadPresetBtn">Carregar preset</button>
+        </div>
+
+        <button class="btn secondary" id="clearPresetBtn">Apagar preset salvo</button>
+
+        <div class="presetInfo" id="presetInfo">Nenhum preset carregado.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <strong>Enviar para o dispositivo</strong>
+
+      <label for="newPassword">Nova senha, opcional</label>
+      <input id="newPassword" type="password" autocomplete="new-password" placeholder="Deixe vazio para manter" />
+
+      <button class="btn" id="saveBtn" disabled>Salvar configuração no ESP32</button>
+      <button class="btn danger" id="muteBtn" disabled>Silenciar alerta</button>
+    </section>
+  </main>
+
+  <script>
+    const SERVICE_UUID = "7a1f0000-2a10-4b8a-9f0e-11a4f34f9001";
+    const CMD_CHAR_UUID = "7a1f0000-2a10-4b8a-9f0e-11a4f34f9002";
+    const STATUS_CHAR_UUID = "7a1f0000-2a10-4b8a-9f0e-11a4f34f9003";
+
+    const PRESET_KEY = "silentbox_c3_preset_final_v1";
+
+    let device = null;
+    let server = null;
+    let service = null;
+    let cmdChar = null;
+    let statusChar = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    const ui = {
+      dot: $("dot"),
+      connText: $("connText"),
+      deviceName: $("deviceName"),
+      msg: $("msg"),
+      password: $("password"),
+
+      boxName: $("boxName"),
+
+      thresholdRange: $("thresholdRange"),
+      thresholdNumber: $("thresholdNumber"),
+      thresholdValue: $("thresholdValue"),
+
+      energy: $("energy"),
+      avg: $("avg"),
+      floor: $("floor"),
+      rms: $("rms"),
+      zcr: $("zcr"),
+      acc: $("acc"),
+      dyn: $("dyn"),
+      frameFlags: $("frameFlags"),
+
+      alertMode: $("alertMode"),
+      secondsBox: $("secondsBox"),
+      secondsRange: $("secondsRange"),
+      secondsValue: $("secondsValue"),
+      alertSeconds: $("alertSeconds"),
+
+      touchMuteBox: $("touchMuteBox"),
+      touchMuteRange: $("touchMuteRange"),
+      touchMuteNumber: $("touchMuteNumber"),
+      touchMuteValue: $("touchMuteValue"),
+
+      gain: $("gain"),
+      newPassword: $("newPassword"),
+
+      activationRange: $("activationRange"),
+      activationNumber: $("activationNumber"),
+      activationValue: $("activationValue"),
+
+      decayRange: $("decayRange"),
+      decayNumber: $("decayNumber"),
+      decayValue: $("decayValue"),
+
+      rearmRange: $("rearmRange"),
+      rearmNumber: $("rearmNumber"),
+      rearmValue: $("rearmValue"),
+
+      connectBtn: $("connectBtn"),
+      readBtn: $("readBtn"),
+      saveBtn: $("saveBtn"),
+      muteBtn: $("muteBtn"),
+
+      savePresetBtn: $("savePresetBtn"),
+      loadPresetBtn: $("loadPresetBtn"),
+      clearPresetBtn: $("clearPresetBtn"),
+      presetInfo: $("presetInfo")
+    };
+
+    function setMessage(text, type = "") {
+      ui.msg.className = "msg " + type;
+      ui.msg.textContent = text;
+    }
+
+    function setPresetInfo(text, type = "") {
+      ui.presetInfo.className = "presetInfo " + type;
+      ui.presetInfo.textContent = text;
+    }
+
+    function setConnected(on) {
+      ui.dot.classList.toggle("on", on);
+      ui.connText.textContent = on ? "online" : "offline";
+      ui.readBtn.disabled = !on;
+      ui.saveBtn.disabled = !on;
+      ui.muteBtn.disabled = !on;
+    }
+
+    function requirePassword() {
+      const p = ui.password.value.trim();
+      if (!p) throw new Error("Digite a senha do dispositivo.");
+      return p;
+    }
+
+    function sanitizeName(name) {
+      let n = String(name || "").trim();
+      if (!n) n = "SilentBox";
+      if (n.length > 24) n = n.slice(0, 24);
+      return n;
+    }
+
+    function clampNumber(value, min, max, fallback) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return fallback;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function roundToStep(value, step) {
+      const n = Number(value);
+      const s = Number(step);
+      if (!Number.isFinite(n) || !Number.isFinite(s) || s <= 0) return value;
+      return Math.round(n / s) * s;
+    }
+
+    function formatNumber(value, decimals = 0) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return String(value);
+      if (decimals <= 0) return String(Math.round(n));
+      return n.toFixed(decimals).replace(".", ",");
+    }
+
+    function formatInputNumber(value, decimals = 0) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return String(value);
+      if (decimals <= 0) return String(Math.round(n));
+      return n.toFixed(decimals);
+    }
+
+    function setRangeProgress(range) {
+      const min = Number(range.min);
+      const max = Number(range.max);
+      const value = Number(range.value);
+      const pct = ((value - min) * 100) / (max - min);
+      range.style.setProperty("--progress", `${pct}%`);
+    }
+
+    function setRangeAndNumber(pair, value) {
+      const v = clampNumber(value, pair.min, pair.max, pair.fallback);
+      const stepped = roundToStep(v, pair.step);
+
+      pair.range.value = stepped;
+      pair.number.value = formatInputNumber(stepped, pair.decimals);
+      pair.valueEl.textContent = formatNumber(stepped, pair.decimals);
+
+      setRangeProgress(pair.range);
+    }
+
+    function commitNumber(pair) {
+      const typed = pair.number.value.trim();
+      if (typed === "") {
+        setRangeAndNumber(pair, pair.fallback);
+        return;
+      }
+      setRangeAndNumber(pair, typed);
+    }
+
+    function bindRangeNumber(pair) {
+      setRangeAndNumber(pair, pair.number.value);
+
+      pair.range.addEventListener("input", () => {
+        setRangeAndNumber(pair, pair.range.value);
+      });
+
+      pair.number.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          commitNumber(pair);
+          pair.number.blur();
+        }
+      });
+
+      pair.number.addEventListener("blur", () => {
+        commitNumber(pair);
+      });
+    }
+
+    const thresholdPair = {
+      range: ui.thresholdRange,
+      number: ui.thresholdNumber,
+      valueEl: ui.thresholdValue,
+      min: 50,
+      max: 20000,
+      step: 10,
+      fallback: 220,
+      decimals: 0
+    };
+
+    const secondsPair = {
+      range: ui.secondsRange,
+      number: ui.alertSeconds,
+      valueEl: ui.secondsValue,
+      min: 1,
+      max: 3600,
+      step: 1,
+      fallback: 8,
+      decimals: 0
+    };
+
+    const touchMutePair = {
+      range: ui.touchMuteRange,
+      number: ui.touchMuteNumber,
+      valueEl: ui.touchMuteValue,
+      min: 0.1,
+      max: 10,
+      step: 0.1,
+      fallback: 0.5,
+      decimals: 1
+    };
+
+    const activationPair = {
+      range: ui.activationRange,
+      number: ui.activationNumber,
+      valueEl: ui.activationValue,
+      min: 40,
+      max: 10000,
+      step: 40,
+      fallback: 800,
+      decimals: 0
+    };
+
+    const decayPair = {
+      range: ui.decayRange,
+      number: ui.decayNumber,
+      valueEl: ui.decayValue,
+      min: 0,
+      max: 99,
+      step: 1,
+      fallback: 0,
+      decimals: 0
+    };
+
+    const rearmPair = {
+      range: ui.rearmRange,
+      number: ui.rearmNumber,
+      valueEl: ui.rearmValue,
+      min: 0,
+      max: 10000,
+      step: 100,
+      fallback: 1800,
+      decimals: 0
+    };
+
+    function updateModeVisibility() {
+      const manual = ui.alertMode.value === "1";
+      ui.secondsBox.classList.toggle("hidden", manual);
+      ui.touchMuteBox.classList.toggle("hidden", !manual);
+    }
+
+    function getPairValue(pair) {
+      commitNumber(pair);
+      return Number(pair.number.value);
+    }
+
+    function getCurrentConfig() {
+      return {
+        name: sanitizeName(ui.boxName.value),
+        thr: getPairValue(thresholdPair),
+        mode: Number(ui.alertMode.value),
+        sec: getPairValue(secondsPair),
+        g: Number(ui.gain.value),
+
+        act: getPairValue(activationPair),
+        dec: getPairValue(decayPair),
+        rearm: getPairValue(rearmPair),
+        touch: Math.round(getPairValue(touchMutePair) * 1000)
+      };
+    }
+
+    function applyConfigToForm(config) {
+      if (typeof config.name !== "undefined") {
+        ui.boxName.value = sanitizeName(config.name);
+      }
+
+      if (typeof config.thr !== "undefined") {
+        setRangeAndNumber(thresholdPair, config.thr);
+      }
+
+      if (typeof config.mode !== "undefined") {
+        ui.alertMode.value = String(config.mode === 1 ? 1 : 0);
+        updateModeVisibility();
+      }
+
+      if (typeof config.sec !== "undefined") {
+        setRangeAndNumber(secondsPair, config.sec);
+      }
+
+      if (typeof config.g !== "undefined") {
+        const g = Number(config.g);
+        ui.gain.value = [40, 50, 60].includes(g) ? String(g) : "60";
+      }
+
+      if (typeof config.act !== "undefined") {
+        setRangeAndNumber(activationPair, config.act);
+      }
+
+      if (typeof config.dec !== "undefined") {
+        setRangeAndNumber(decayPair, config.dec);
+      }
+
+      if (typeof config.rearm !== "undefined") {
+        setRangeAndNumber(rearmPair, config.rearm);
+      }
+
+      if (typeof config.touch !== "undefined") {
+        setRangeAndNumber(touchMutePair, Number(config.touch) / 1000);
+      }
+    }
+
+    function encodeJson(obj) {
+      return new TextEncoder().encode(JSON.stringify(obj));
+    }
+
+    function decodeDataView(value) {
+      return new TextDecoder().decode(value);
+    }
+
+    function formatDate(ts) {
+      try {
+        return new Date(ts).toLocaleString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      } catch (_) {
+        return "";
+      }
+    }
+
+    function saveLocalPreset() {
+      const preset = {
+        ...getCurrentConfig(),
+        savedAt: Date.now()
+      };
+
+      localStorage.setItem(PRESET_KEY, JSON.stringify(preset));
+
+      setPresetInfo(
+        `Preset salvo: ${preset.name}, sense ${preset.thr}, modo ${preset.mode === 1 ? "manual" : "tempo fixo"}, ativação ${preset.act}ms.`,
+        "ok"
+      );
+    }
+
+    function loadLocalPreset() {
+      const raw = localStorage.getItem(PRESET_KEY);
+
+      if (!raw) {
+        setPresetInfo("Nenhum preset salvo neste navegador.", "warn");
+        return;
+      }
+
+      try {
+        const preset = JSON.parse(raw);
+        applyConfigToForm(preset);
+
+        const when = preset.savedAt ? ` Salvo em ${formatDate(preset.savedAt)}.` : "";
+
+        setPresetInfo(
+          `Preset carregado: ${preset.name || "SilentBox"}, sense ${preset.thr}, modo ${preset.mode === 1 ? "manual" : "tempo fixo"}.${when}`,
+          "ok"
+        );
+      } catch (err) {
+        setPresetInfo("Preset salvo está inválido. Apague e salve novamente.", "bad");
+      }
+    }
+
+    function clearLocalPreset() {
+      localStorage.removeItem(PRESET_KEY);
+      setPresetInfo("Preset local apagado.", "warn");
+    }
+
+    function showPresetOnStart() {
+      const raw = localStorage.getItem(PRESET_KEY);
+
+      if (!raw) {
+        setPresetInfo("Nenhum preset salvo neste navegador.");
+        return;
+      }
+
+      try {
+        const preset = JSON.parse(raw);
+        const when = preset.savedAt ? ` Salvo em ${formatDate(preset.savedAt)}.` : "";
+
+        setPresetInfo(
+          `Existe um preset salvo: ${preset.name || "SilentBox"}, sense ${preset.thr}, modo ${preset.mode === 1 ? "manual" : "tempo fixo"}.${when}`
+        );
+      } catch (_) {
+        setPresetInfo("Existe um preset salvo, mas ele parece inválido.", "bad");
+      }
+    }
+
+    function applyStatus(st) {
+      if (typeof st.name !== "undefined") {
+        ui.boxName.value = sanitizeName(st.name);
+        ui.deviceName.textContent = ui.boxName.value;
+      }
+
+      if (typeof st.thr !== "undefined") {
+        setRangeAndNumber(thresholdPair, st.thr);
+      }
+
+      if (typeof st.e !== "undefined") ui.energy.textContent = st.e;
+      if (typeof st.avg !== "undefined") ui.avg.textContent = st.avg;
+      if (typeof st.floor !== "undefined") ui.floor.textContent = st.floor;
+      if (typeof st.rms !== "undefined") ui.rms.textContent = st.rms;
+      if (typeof st.zcr !== "undefined") ui.zcr.textContent = st.zcr;
+      if (typeof st.acc !== "undefined") ui.acc.textContent = st.acc;
+      if (typeof st.dyn !== "undefined") ui.dyn.textContent = st.dyn;
+
+      if (typeof st.loud !== "undefined" || typeof st.dynamic !== "undefined") {
+        const loud = st.loud ? "L" : "-";
+        const dyn = st.dynamic ? "D" : "-";
+        ui.frameFlags.textContent = `${loud}${dyn}`;
+      }
+
+      if (typeof st.mode !== "undefined") {
+        ui.alertMode.value = String(st.mode);
+        updateModeVisibility();
+      }
+
+      if (typeof st.sec !== "undefined") {
+        setRangeAndNumber(secondsPair, st.sec);
+      }
+
+      if (typeof st.g !== "undefined") {
+        ui.gain.value = String(st.g);
+      }
+
+      if (typeof st.act !== "undefined") {
+        setRangeAndNumber(activationPair, st.act);
+      }
+
+      if (typeof st.dec !== "undefined") {
+        setRangeAndNumber(decayPair, st.dec);
+      }
+
+      if (typeof st.rearm !== "undefined") {
+        setRangeAndNumber(rearmPair, st.rearm);
+      }
+
+      if (typeof st.touch !== "undefined") {
+        setRangeAndNumber(touchMutePair, Number(st.touch) / 1000);
+      }
+
+      if (st.msg) {
+        setMessage(`${st.ok ? "OK" : "Erro"}: ${st.msg}`, st.ok ? "ok" : "bad");
+      }
+    }
+
+    async function readStatus() {
+      if (!statusChar) return;
+
+      const value = await statusChar.readValue();
+      const text = decodeDataView(value);
+
+      try {
+        const st = JSON.parse(text);
+        applyStatus(st);
+      } catch (err) {
+        setMessage("Status recebido, mas não consegui ler o JSON: " + text, "warn");
+      }
+    }
+
+    async function sendCommand(obj) {
+      if (!cmdChar) {
+        throw new Error("Não conectado.");
+      }
+
+      await cmdChar.writeValueWithResponse(encodeJson(obj));
+      await new Promise(resolve => setTimeout(resolve, 180));
+      await readStatus();
+    }
+
+    async function connectBle() {
+      try {
+        if (!("bluetooth" in navigator)) {
+          throw new Error("Este navegador não tem Web Bluetooth. Use Chrome/Edge em HTTPS ou localhost.");
+        }
+
+        setMessage("Procurando dispositivo... ative o modo BLE com 5 toques no sensor.", "warn");
+
+        device = await navigator.bluetooth.requestDevice({
+          filters: [{ services: [SERVICE_UUID] }],
+          optionalServices: [SERVICE_UUID]
+        });
+
+        device.addEventListener("gattserverdisconnected", () => {
+          setConnected(false);
+          setMessage("Dispositivo desconectado.", "warn");
+        });
+
+        server = await device.gatt.connect();
+        service = await server.getPrimaryService(SERVICE_UUID);
+        cmdChar = await service.getCharacteristic(CMD_CHAR_UUID);
+        statusChar = await service.getCharacteristic(STATUS_CHAR_UUID);
+
+        try {
+          await statusChar.startNotifications();
+
+          statusChar.addEventListener("characteristicvaluechanged", (event) => {
+            const text = decodeDataView(event.target.value);
+
+            try {
+              applyStatus(JSON.parse(text));
+            } catch (_) {}
+          });
+        } catch (_) {
+          // Notificação é opcional.
+        }
+
+        ui.deviceName.textContent = device.name || "SilentBox";
+        setConnected(true);
+        setMessage("Conectado. Lendo status...", "ok");
+
+        await sendCommand({
+          p: requirePassword(),
+          cmd: "get"
+        });
+      } catch (err) {
+        setConnected(false);
+        setMessage(err.message || String(err), "bad");
+      }
+    }
+
+    async function saveConfigToDevice() {
+      try {
+        const formConfig = getCurrentConfig();
+
+        const payload = {
+          p: requirePassword(),
+          cmd: "set",
+
+          name: formConfig.name,
+          thr: formConfig.thr,
+          mode: formConfig.mode,
+          sec: formConfig.sec,
+          g: formConfig.g,
+
+          act: formConfig.act,
+          dec: formConfig.dec,
+          rearm: formConfig.rearm,
+          touch: formConfig.touch
+        };
+
+        const np = ui.newPassword.value.trim();
+
+        if (np.length > 0) {
+          payload.np = np;
+        }
+
+        await sendCommand(payload);
+
+        if (np.length > 0) {
+          ui.password.value = np;
+          ui.newPassword.value = "";
+          setMessage("Configurações salvas. A senha nova já está no campo de senha.", "ok");
+        } else {
+          setMessage("Configuração enviada e salva no ESP32.", "ok");
+        }
+      } catch (err) {
+        setMessage(err.message || String(err), "bad");
+      }
+    }
+
+    async function muteAlert() {
+      try {
+        await sendCommand({
+          p: requirePassword(),
+          cmd: "mute"
+        });
+      } catch (err) {
+        setMessage(err.message || String(err), "bad");
+      }
+    }
+
+    bindRangeNumber(thresholdPair);
+    bindRangeNumber(secondsPair);
+    bindRangeNumber(touchMutePair);
+    bindRangeNumber(activationPair);
+    bindRangeNumber(decayPair);
+    bindRangeNumber(rearmPair);
+
+    ui.alertMode.addEventListener("change", updateModeVisibility);
+
+    ui.connectBtn.addEventListener("click", connectBle);
+
+    ui.readBtn.addEventListener("click", async () => {
+      try {
+        await sendCommand({
+          p: requirePassword(),
+          cmd: "get"
+        });
+      } catch (err) {
+        setMessage(err.message || String(err), "bad");
+      }
+    });
+
+    ui.saveBtn.addEventListener("click", saveConfigToDevice);
+    ui.muteBtn.addEventListener("click", muteAlert);
+
+    ui.savePresetBtn.addEventListener("click", saveLocalPreset);
+    ui.loadPresetBtn.addEventListener("click", loadLocalPreset);
+    ui.clearPresetBtn.addEventListener("click", clearLocalPreset);
+
+    updateModeVisibility();
+    setConnected(false);
+    showPresetOnStart();
+  </script>
+</body>
+</html>
