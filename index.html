@@ -441,7 +441,7 @@
       </div>
 
       <label for="password">Senha do dispositivo</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="Ex: 12345678" />
+      <input id="password" type="password" autocomplete="current-password" placeholder="insira sua senha" />
 
       <button class="btn" id="connectBtn">Conectar via Bluetooth</button>
       <button class="btn secondary" id="readBtn" disabled>Ler status</button>
@@ -467,11 +467,11 @@
       </div>
 
       <div class="hint">
-        O alerta dispara quando o pico-a-pico passa da Sense pelo tempo configurado.
+        O alerta dispara quando a amplitude ultapassa a Sense pelo tempo configurado.
       </div>
 
       <div class="controlHead">
-        <label for="thresholdRange">Pico-a-pico necessário</label>
+        <label for="thresholdRange">Amplitude necessária</label>
       </div>
 
       <div class="rangeNumber">
@@ -483,7 +483,7 @@
 
       <div class="meter">
         <div class="metric">
-          <span>pico-a-pico</span>
+          <span>amplitude</span>
           <b id="energy">0</b>
         </div>
 
@@ -563,7 +563,7 @@
         </div>
       </div>
 
-      <label for="gain">Ganho MAX9814</label>
+      <label for="gain">Ganho</label>
       <select id="gain">
         <option value="40">40 dB</option>
         <option value="50">50 dB</option>
@@ -571,7 +571,7 @@
       </select>
 
       <div class="hint">
-        O ganho é o máximo do MAX9814. O alerta usa pico-a-pico real medido em janela.
+        O ganho é o máximo do módulo amplificador.
       </div>
     </section>
 
@@ -627,7 +627,7 @@
 
       <div class="presetBox">
         <div class="hint">
-          Salve esta configuração no navegador para aplicar em outra caixinha depois.
+          Salve esta configuração no navegador para aplicar em outra SilentBox depois.
           A senha não é salva.
         </div>
 
@@ -648,7 +648,7 @@
       <label for="newPassword">Nova senha, opcional</label>
       <input id="newPassword" type="password" autocomplete="new-password" placeholder="Deixe vazio para manter" />
 
-      <button class="btn" id="saveBtn" disabled>Salvar configuração no ESP32</button>
+      <button class="btn" id="saveBtn" disabled>Enviar configurações</button>
       <button class="btn danger" id="muteBtn" disabled>Silenciar alerta</button>
     </section>
   </main>
