@@ -1217,6 +1217,8 @@
         } else {
           setMessage("Configuração enviada e salva no ESP32.", "ok");
         }
+
+        alert("Configuração enviada com sucesso!");
       } catch (err) {
         setMessage(err.message || String(err), "bad");
       }
